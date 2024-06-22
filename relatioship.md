@@ -37,5 +37,20 @@ Options when a entity refered by a foreign key is tryied to delete
 * **ON DELETE SET NULL** -> Set foreign key to null
 * **ON DELETE SET DEFAULT** -> Set foreign key to a default value, if one is provided.
 
+## Join types
 
+### INNER JOIN 
 
+* Only keeps rows that are part of the intersection (through join on condition) of both tables part of the join.
+
+### LEFT JOIN 
+
+* It will keep rows that are part of the intersection (through join on condition) of both groups-tables, plus all rows that are left in the left group-table (without matching row on the right group-table).
+
+### RIGHT JOIN 
+
+* It will keep rows that are part of the intersection (through join on condition) of both groups-tables, plus all rows that are left in the right group-table (without matching row on the left group-table).
+
+### FULLL JOIN 
+
+* It will keep all rows that are part of both groups-tables.
