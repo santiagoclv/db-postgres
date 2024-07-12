@@ -36,7 +36,35 @@ join photos p on c.photo_id = p.id;
 
 -- Group By - Count the amount of comments that every photo has
 -- the left join is important, if not, only the photos with comments will be have a count value.
-SELECT p.url , count(p.id)
+SELECT p.url , count(*)
 FROM photos p
 LEFT JOIN comments c on c.photo_id = p.id
 group by p.id;
+
+-- multiple join to get users that commented on their own photos
+
+-- Nested Loop  (cost=0.30..12.98 rows=1 width=579)
+SELECT p.url , u.username, c.contents 
+FROM photos p
+JOIN comments c on c.photo_id = p.id 
+JOIN users u on p.user_id = u.id and c.user_id = u.id;
+
+-- Nested Loop  (cost=0.15..12.53 rows=1 width=461)
+SELECT p.url, c.contents 
+FROM photos p
+JOIN comments c on c.photo_id = p.id and c.user_id = p.user_id;
+
+-- Nested Loop  (cost=0.15..12.53 rows=1 width=461)
+SELECT p.url, c.contents 
+FROM photos p
+JOIN comments c on c.photo_id = p.id 
+where c.user_id = p.user_id;
+
+
+-- Group By and HAVING 
+-- Filter out the photos that don't have more than 3 comments
+SELECT p.url , count(*)
+FROM photos p
+LEFT JOIN comments c on c.photo_id = p.id
+group by p.id
+having count(*) > 3;
